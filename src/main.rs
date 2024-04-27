@@ -5,9 +5,10 @@
 // mod gcd;
 mod greedy;
 // use crate::greedy::find_max;
-use crate::greedy::car_fueling;
+use crate::greedy::car_fueling::run;
 
 fn main() {
     // gcd::run();
     // find_max::run();
+    run();
 }

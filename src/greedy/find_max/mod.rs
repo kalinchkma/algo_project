@@ -5,16 +5,19 @@
  *  remove it from the list of digits
  *  Repeat while there digits in the list
  */
+
 use std::io;
 
- pub fn run() {
+#[allow(unused)]
+pub fn run() {
     println!("Enter a sequence of numbers:");
     let mut input = String::new();
     io::stdin().read_line(&mut input).expect("Error reading line");
     println!("Possible max number of given digit: {}",find_max(&mut input));
  }
 
- fn find_max(seq: &mut String) -> String {
+#[allow(unused)]
+fn find_max(seq: &mut String) -> String {
     let mut big_num = String::new();
 
     while seq.len() > 0 {
