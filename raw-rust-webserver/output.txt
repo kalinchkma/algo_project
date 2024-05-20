@@ -1,0 +1,3 @@
+Searching for rust
+In file info.txt
+manager and build system, rustc compiler, and extensive documentation. Cargo simplifies dependency management and project setup.
