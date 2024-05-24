@@ -243,6 +243,65 @@ fn custom_types() {
     inspect(click);
     inspect(pressed);
 
+    enum TheEventOfTheNewYearAndTheEventOfTheLifeOfOurNewProgramingLanguage {
+        Dance,
+        Sing
+    }
+
+    // alias long name with simal
+    type Event = TheEventOfTheNewYearAndTheEventOfTheLifeOfOurNewProgramingLanguage;
+
+    impl Event {
+        fn inspect(&self) {
+            match self {
+                Event::Dance => println!("Let's Dance with new event"),
+                Event::Sing => println!("Let's Sing with new event")
+            }
+        }
+    }
+
+    let event = Event::Dance;
+    let sing = Event::Sing;
+
+    event.inspect();
+    sing.inspect();
+
+    enum Status {
+        Rich,
+        Poor
+    }
+
+    use Status::{Rich, Poor};
+
+    let bil_gets = Rich;
+
+    match bil_gets {
+        Rich => println!("He is super Rich, He dosen't care anything about anyone anymore"),
+        Poor => println!("He is super poor, He is looking for a way to get rich and he has to think about everyone")
+    }
+
+    enum CountryValueBaseOnTheirMentalities {
+        Bangladesh = 3,
+        China = 5,
+        India = 4,
+        America = 8,
+        Japan = 10
+    }
+
+    type Country = CountryValueBaseOnTheirMentalities;
+
+    let countrys = [Country::Bangladesh, Country::China, Country::India, Country::America, Country::Japan];
+
+    for country in countrys.iter() {
+        match country {
+            Country::Bangladesh => println!("This Country peoples are so menupulated by some old ideas, score {}",Country::Bangladesh as i32),
+            Country::China => println!("This Country peoples are so menupulated by some old ideas, score {}",Country::China as i32),
+            Country::America => println!("This Country peoples are so funcking claver, score {}",Country::America as i32),
+            Country::India => println!("This Country peoples are so dump as bangladesh, score {}",Country::India as i32),
+            Country::Japan => println!("This Country peoples are so good, score {}",Country::Japan as i32),
+        }
+    }
+
 }
 
 
