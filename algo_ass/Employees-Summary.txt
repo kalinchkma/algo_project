@@ -1,0 +1,92 @@
+***Employee Summary Report***
+=======================
+ID: 1, Name:  Alice
+Tasks: [10 15 20 25 30 35 40 45 50 55 60 65]
+Median: 37.5, Mode: 10
+Consistency Score: 2.1726204731337044
+Performance Trend: Improving
+
+ID: 2, Name:  Bob
+Tasks: [20 25 30 35 40 45 50 55 60 65 70 75]
+Median: 47.5, Mode: 20
+Consistency Score: 2.751985932636025
+Performance Trend: Improving
+
+ID: 3, Name:  Charlie
+Tasks: [30 35 40 45 50 55 60 65 70 75 80 85]
+Median: 57.5, Mode: 30
+Consistency Score: 3.3313513921383464
+Performance Trend: Improving
+
+ID: 4, Name:  Dave
+Tasks: [40 45 50 55 60 65 70 75 80 85 90 95]
+Median: 67.5, Mode: 40
+Consistency Score: 3.9107168516406676
+Performance Trend: Improving
+
+ID: 5, Name:  Eve
+Tasks: [90 85 80 75 70 65 60 55 50 45 40 35]
+Median: 62.5, Mode: 35
+Consistency Score: 3.6210341218895072
+Performance Trend: Declining
+
+ID: 6, Name:  Frank
+Tasks: [20 20 20 20 20 20 20 20 20 20 20 20]
+Median: 20.0, Mode: 20
+Consistency Score: 0
+Performance Trend: Stable
+
+ID: 7, Name:  Grace
+Tasks: [30 30 30 30 30 30 30 30 30 30 30 30]
+Median: 30.0, Mode: 30
+Consistency Score: 0
+Performance Trend: Stable
+
+ID: 8, Name:  Hank
+Tasks: [ 13  23  33  43  53  63  73  83  93 103 113 123]
+Median: 68.0, Mode: 13
+Consistency Score: 1.969842562307892
+Performance Trend: Improving
+
+ID: 9, Name:  Ivy
+Tasks: [70 65 60 55 50 45 40 35 30 25 20 15]
+Median: 42.5, Mode: 15
+Consistency Score: 2.462303202884865
+Performance Trend: Declining
+
+ID: 10, Name:  Jack
+Tasks: [  7  17  27  37  47  57  67  77  87  97 107 117]
+Median: 62.0, Mode: 7
+Consistency Score: 1.7960329244571955
+Performance Trend: Improving
+
+ID: 11, Name:  Kate
+Tasks: [  6  16  26  36  46  56  66  76  86  96 106 116]
+Median: 61.0, Mode: 6
+Consistency Score: 1.7670646514820794
+Performance Trend: Improving
+
+ID: 12, Name:  Leo
+Tasks: [  4  14  24  34  44  54  64  74  84  94 104 114]
+Median: 59.0, Mode: 4
+Consistency Score: 1.7091281055318472
+Performance Trend: Improving
+
+ID: 13, Name:  Mike
+Tasks: [110 105 100  95  90  85  80  75  70  65  60  55]
+Median: 82.5, Mode: 55
+Consistency Score: 4.77976504089415
+Performance Trend: Declining
+
+ID: 14, Name:  Nina
+Tasks: [  2  12  22  32  42  52  62  72  82  92 102 112]
+Median: 57.0, Mode: 2
+Consistency Score: 1.6511915595816151
+Performance Trend: Improving
+
+ID: 15, Name:  Oscar
+Tasks: [120 115 110 105 100  95  90  85  80  75  70  65]
+Median: 92.5, Mode: 65
+Consistency Score: 5.35913050039647
+Performance Trend: Declining
+
