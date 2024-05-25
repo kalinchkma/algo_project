@@ -17,11 +17,9 @@ fn hello_world() {
     println!("Hello world");
 }
 
-
 fn format_greetings(name: &str) -> String {
     return format!("Welcome to the new world, {}!", name);
 }
-
 
 fn number_printing() {
     #[derive(Debug)]
@@ -49,7 +47,6 @@ fn number_printing() {
     println!("Model: {}", Model {name: "Albert".to_string(), age: 34});
 
 }
-
 
 fn primitives_types() {
     let logical: bool = true;
@@ -127,8 +124,6 @@ fn primitives_types() {
     
 
 }
-
-
 
 fn custom_types() {
     // struct
@@ -301,7 +296,120 @@ fn custom_types() {
             Country::Japan => println!("This Country peoples are so good, score {}",Country::Japan as i32),
         }
     }
+    // Linked list
+   
 
+    enum List {
+        // Tupe construct that wraps an element and a pointer to the next node
+        Cons(u32, Box<List>),
+        // Nil signifies the end of the linked list
+        Nil
+    }
+
+    impl List {
+        // Create an empty list
+        fn new() -> List {
+            List::Nil
+        }
+
+        fn append(self, elem: u32) -> List {
+            List::Cons(elem, Box::new(self))
+        }
+
+        fn len(&self) -> u32 {
+            match *self {
+                List::Cons(_, ref tail ) => 1 + tail.len(),
+                List::Nil => 0
+            }
+        }
+
+        fn stringify(&self) -> String {
+            match *self {
+                List::Cons(head, ref tail) => {
+                    format!("{} {}", tail.stringify(), head)
+                },
+                List::Nil => {
+                    format!("Nil")
+                }
+            }
+        }
+
+    }
+
+    let mut list = List::new();
+
+    list = list.append(1);
+    list = list.append(2);
+    list = list.append(3);
+    list = list.append(4);
+
+    println!("Linked list has length: {}", list.len());
+    println!("Linked list has elements: {}", list.stringify());
+}
+
+fn variable_binding() {
+    let number = 23;
+    let boolean = true;
+    let tuple = ();
+    let string_slice = "Hello rust";
+
+    let cp_number = number;
+    let cp_boolean = boolean;
+    let cp_tuple = tuple;
+    let cp_string_slice = string_slice;
+
+    println!("copied Number: {}, copied Boolean: {}, copied Tuple: {:?}, copied string slice: {}", cp_number, cp_boolean, cp_tuple, cp_string_slice);
+
+    println!("Number: {}, Boolean: {}, Tuple: {:?}, string slice: {}", number, boolean, tuple, string_slice);
+
+    // variable mutability
+    let _immutable_binding = 1;
+    let mut mutable_binding = 1;
+
+    println!("Before mutation: {}", mutable_binding);
+
+    mutable_binding += 1;
+
+    println!("After mutation: {}", mutable_binding);
+
+    // _immutable_binding += 1; // error
+
+    // scope and shadowing
+    let long_lived_binding = 1;
+
+    {
+        let short_lived_binding = 2;
+        println!("Inner short: {}", short_lived_binding);
+        let long_lived_binding = 5_f32;
+        println!("Inner long: {}", long_lived_binding);
+    }
+    println!("Outer long: {}", long_lived_binding);
+    // try to access short_lived_binding
+    // println!("Outer short: {}", short_lived_binding); // error
+
+    let shadow_var = 100;
+
+    {
+        println!("Shadow var before shadowing: {}", shadow_var);
+        let shadow_var = shadow_var + 50;
+        println!("Shadow var after showing: {}", shadow_var);
+    }
+
+    println!("Shadow var after completed shadow scope: {}", shadow_var);
+
+    // declare variable binding
+    let mut binding = 1;
+    {
+        binding = 200;
+    }
+    println!("Binding value: {}", binding);
+}
+
+fn types() {
+    // casting
+    // no implicit casting in rust
+    // explicit casting can be done using `as`
+    
 }
 
 
@@ -310,5 +418,6 @@ pub fn run() {
     // println!("{}",format_greetings("Cyper"));
     // number_printing();
     // primitives_types()
-    custom_types();
+    // custom_types();
+    // variable_binding();
 }
