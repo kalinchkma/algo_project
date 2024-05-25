@@ -398,7 +398,7 @@ fn variable_binding() {
     println!("Shadow var after completed shadow scope: {}", shadow_var);
 
     // declare variable binding
-    let mut binding = 1;
+    let binding;
     {
         binding = 200;
     }
@@ -409,9 +409,207 @@ fn types() {
     // casting
     // no implicit casting in rust
     // explicit casting can be done using `as`
-    
+
+    let pi = 3.1416_f64;
+
+    // implicit casting
+    // let pi_integer = pi; // error
+    let pi_integer = pi as u32;
+
+    println!("Integer: {}", pi_integer);
+    println!("Float: {}", pi);
+
+    println!("max u8: {}", u8::MAX);
+
+    let lowest: u8 = 20;
+
+    let lowest_char = lowest as char; // error
+    println!("Lowest char: {}", lowest_char);
+
+    println!("Prinsing all characters available");
+    // for i  in 0..u8::MAX {
+    //     println!("{}: {}", i, i as char);
+    // }
+    // for code_point in 0..u32::MAX {
+    //     if let Some(c) = std::char::from_u32(code_point) {
+    //         print!("{}", c);
+    //     }
+    // }
+    println!("{}", u32::MAX/1000000);
+    let utf_char = u32::MAX/1000000;
+
+    for code in 0..utf_char {
+        if let Some(c) = std::char::from_u32(code) {
+            print!("{}", c);
+        }
+    }
 }
 
+fn conversion() {
+    // from traits
+    use std::convert::From;
+    use std::convert::Into;
+
+    #[derive(Debug)]
+    struct Number {
+        value: i32
+    }
+
+    impl From<i32> for Number {
+        fn from(item: i32) -> Self {
+            Number { value: item}
+        }
+    }
+
+    impl Into<Number> for f64 {
+        fn into(self) -> Number {
+            Number {value: self as i32}
+        }
+    }
+
+    let num = Number::from(40);
+    let float_num: f64 = 34.0;
+    let num2: Number = float_num.into();
+    println!("Number: {}", num.value);
+    println!("Float number: {:?}", num2);
+
+    // tryfrom
+    use std::convert::TryFrom;
+    use std::convert::TryInto;
+
+    #[derive(Debug)]
+    struct SpecialNumber {
+        value: i32,
+        name: f64
+    }
+
+    impl TryFrom<i32> for SpecialNumber {
+        type Error = ();
+        fn try_from(value: i32) -> Result<Self, Self::Error> {
+            if value < 10 {
+                Ok(SpecialNumber {value, name: (value * 19) as f64})
+            } else {
+                Err(())
+            }
+        }
+    }
+
+    impl TryInto<SpecialNumber> for f64 {
+        type Error = ();
+        fn try_into(self) -> Result<SpecialNumber, Self::Error> {
+            if self < 10.0 {
+                Ok(SpecialNumber {value: self as i32, name: self})
+            } else {
+                Err(())
+            }
+        }
+    }
+
+    let special_num = SpecialNumber::try_from(9).unwrap();
+    let float_special: SpecialNumber = 9.0_f64.try_into().unwrap();
+    println!("Special number fron u32 {:?}", special_num);
+    println!("Special number from f64{:?}", float_special);
+
+}
+
+fn flow_control() {
+    let n = 5;
+
+    if n < 5 {
+        println!("n is less than 5");
+    } else if n == 5 {
+        println!("n is equal to 5");
+    } else {
+        println!("n is greater than 5");
+    }
+
+    let big_n = if n < 10 && n > 0 {
+        10 * n
+    } else {
+        n / 2
+    };
+    println!("big_n: {}", big_n);
+
+    // loops
+    let mut count = 0;
+    loop {
+        count += 1;
+        if count > 100 {
+            break;
+        }
+        if count % 2 != 0 {
+            continue;
+        }
+        print!("{}, ", count);
+    }
+    println!("");
+    let mut count = 0;
+    'outer: loop {
+        // if count % 50 == 0 {
+        //     println!("Breaking from outer loop");
+        //     break 'outer;
+        // }
+        'inner: loop {
+            count += 1;
+            println!("Current count value: {}", count);
+            if count % 60 == 0 {
+                println!("Breaking fron inner loop to outer of number {}", count);
+                break 'outer;
+            }
+            if count > 50000 {
+                break 'inner;
+            }
+            count *= 2;
+        }
+    }
+
+    // returning from loop
+    let my_69 = loop {
+        count += 1;
+        if count == 69 || count > 100000{
+            break count;
+        }
+    };
+    
+    println!("My fav number from loop: {}", my_69);
+
+    // let mut num = 0;
+    let num = 0;
+    let start_timer = std::time::Instant::now();
+    // while loop this loop will take 487 years to complete (approximately)
+    // while num < i64::MAX {
+    //     print!("{}, ", num);
+    //     num += 1;
+    // }
+    println!("{}", i64::MAX);
+    let end_timer = start_timer.elapsed();
+    println!("Number of loop iterate: {}", num);
+    println!("Time taken to iterate: {:?}", end_timer);
+
+    for i in 0..10 {
+        print!("{}, ", i);
+    }
+    println!("");
+    for i in 0..=10 {
+        print!("{}, ", i);
+    }
+    println!("");
+    for i in (0..=100).step_by(7) {
+        print!("{}, ", i);
+    }
+    println!("");
+
+    let naruto_characters = vec!["Hinata", "Naruto", "Sasuke", "Sakura", "Kakashi", "Jiraya", "Orochimaru", "Itachi", "Madara", "Hashirama", "Tobirama", "Minato", "Kushina", "Nagato", "Konan", "Kisame", "Zabuza", "Haku", "Kabuto", "Orochimaru"];
+
+    for character in naruto_characters.iter() {
+        match character {
+            &"Kushina" => println!("{} is a naruto's mother", character),
+            &"Naruto" => println!("{} is the main character of the anime", character),
+            _ => print!("{}, ", character)
+        }
+    }
+    println!("");
+}
 
 pub fn run() {
     // hello_world();
@@ -420,4 +618,7 @@ pub fn run() {
     // primitives_types()
     // custom_types();
     // variable_binding();
+    // types();
+    // conversion();
+    flow_control();
 }
