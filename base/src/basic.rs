@@ -908,6 +908,10 @@ fn functions() {
     
 }
 
+fn generics() {
+    
+}
+
 pub fn run() {
     // hello_world();
     // println!("{}",format_greetings("Cyper"));
@@ -918,5 +922,5 @@ pub fn run() {
     // types();
     // conversion();
     // flow_control();
-    functions();
+    // functions();
 }
