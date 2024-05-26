@@ -694,6 +694,220 @@ fn flow_control() {
 
 }   
 
+fn functions() {
+    
+    use std::rc::Rc;
+    use std::cell::RefCell;
+    use std::fmt;
+    
+    type Link<T> = Option<Rc<RefCell<Node<T>>>>;
+    
+    struct Node<T> {
+        value: T,
+        prev: Link<T>,
+        next: Link<T>,
+    }
+    
+    impl<T> Node<T> {
+        fn new(value: T) -> Rc<RefCell<Self>> {
+            Rc::new(RefCell::new(Node {
+                value,
+                prev: None,
+                next: None,
+            }))
+        }
+    }
+
+    struct DoublyLinkedList<T> {
+        head: Link<T>,
+        tail: Link<T>,
+        length: usize,
+    }
+
+    impl<T> DoublyLinkedList<T> {
+        fn new() -> Self {
+            DoublyLinkedList {
+                head: None,
+                tail: None,
+                length: 0,
+            }
+        }
+
+        fn append(&mut self, value: T) {
+            let new_node = Node::new(value);
+
+            match self.tail.take() {
+                Some(old_tail) => {
+                    old_tail.borrow_mut().next = Some(Rc::clone(&new_node));
+                    new_node.borrow_mut().prev = Some(old_tail);
+                    self.tail = Some(new_node);
+                }
+                None => {
+                    self.head = Some(Rc::clone(&new_node));
+                    self.tail = Some(new_node);
+                }
+            }
+
+            self.length += 1;
+        }
+
+        fn prepend(&mut self, value: T) {
+            let new_node = Node::new(value);
+
+            match self.head.take() {
+                Some(old_head) => {
+                    old_head.borrow_mut().prev = Some(Rc::clone(&new_node));
+                    new_node.borrow_mut().next = Some(old_head);
+                    self.head = Some(new_node);
+                }
+                None => {
+                    self.head = Some(Rc::clone(&new_node));
+                    self.tail = Some(new_node);
+                }
+            }
+
+            self.length += 1;
+        }
+
+        fn remove_first(&mut self) -> Option<T> {
+            self.head.take().map(|old_head| {
+                if let Some(next) = old_head.borrow_mut().next.take() {
+                    next.borrow_mut().prev.take();
+                    self.head = Some(next);
+                } else {
+                    self.tail.take();
+                }
+
+                self.length -= 1;
+                Rc::try_unwrap(old_head).ok().unwrap().into_inner().value
+            })
+        }
+
+        fn remove_last(&mut self) -> Option<T> {
+            self.tail.take().map(|old_tail| {
+                if let Some(prev) = old_tail.borrow_mut().prev.take() {
+                    prev.borrow_mut().next.take();
+                    self.tail = Some(prev);
+                } else {
+                    self.head.take();
+                }
+
+                self.length -= 1;
+                Rc::try_unwrap(old_tail).ok().unwrap().into_inner().value
+            })
+        }
+
+        fn is_empty(&self) -> bool {
+            self.head.is_none()
+        }
+
+        fn len(&self) -> usize {
+            self.length
+        }
+    }
+
+    impl<T: fmt::Debug> fmt::Debug for DoublyLinkedList<T> {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            let mut result = f.debug_list();
+            let mut current = self.head.as_ref().map(|node| Rc::clone(node));
+            
+            while let Some(node) = current {
+                result.entry(&node.borrow().value);
+                current = node.borrow().next.as_ref().map(|next_node| Rc::clone(next_node));
+            }
+            
+            result.finish()
+        }
+    }
+
+
+    let mut list = DoublyLinkedList::new();
+
+    list.append(1);
+    list.append(2);
+    list.append(3);
+    list.append(0);
+
+    println!("{:?}", list);
+
+    list.remove_first();
+    println!("{:?}", list);
+
+    list.remove_last();
+    println!("{:?}", list);
+
+    println!("Length: {}", list.len());
+    println!("Is empty: {}", list.is_empty());
+
+    // closures
+    use std::mem;
+
+    let color = String::from("Green");
+
+    let print_color = || { 
+        // this pice of code will move the color variable into the closure
+        // let c = color;
+        // println!("Color: {}", c)
+        // This will borrow the color variable
+        println!("Color: {}", color)
+    };
+
+    print_color();
+
+    // color can be borrowed because it is not moved into the closure but it is borrowed
+    let _borrow_color = &color;
+
+    let mut count = 0;
+
+    let mut inc = || {
+        count += 1;
+        println!("Count: {}", count);
+    };
+
+    inc();
+
+    // let _reborrow = &count; // error
+    inc();
+
+    // A non-copy type
+    let moveable = Box::new(3);
+    
+    let consume = || {
+        println!("Moveable: {:?}", moveable);
+        mem::drop(moveable);
+    };
+    
+    // println!("Before calling a consume function {:?}", moveable); // error case memory is already dropped
+    consume();
+    // consume(); // this function can be call only once
+
+    let ages = vec![23, 45, 65, 23];
+
+    let find = move |age_vec: Vec<usize>| {
+        let age = age_vec.iter().find(|&x| *x > 45);
+        println!("Age: {:?}", age.unwrap());
+    };
+
+    find(ages);
+    // println!("Ages: {:?}", ages); // error cause ages is moved into the closure
+
+    // closer with function arguments
+    fn order<F>(value: i32, f: F) where F: FnOnce(i32) {
+        let value = value * value;
+        f(value);
+    }
+
+    fn order_twice<F>(value: &mut i32, f: F) where F: Fn(&mut i32) {
+        *value = *value * 2;
+        f(value);
+    }
+
+    order(35, |x| {
+        println!("Value: {}", x);
+    });
+    
+}
+
 pub fn run() {
     // hello_world();
     // println!("{}",format_greetings("Cyper"));
@@ -703,5 +917,6 @@ pub fn run() {
     // variable_binding();
     // types();
     // conversion();
-    flow_control();
+    // flow_control();
+    functions();
 }
