@@ -609,7 +609,90 @@ fn flow_control() {
         }
     }
     println!("");
-}
+
+    let reference = &200;
+    match reference {
+        &val => println!("Got a value: {}", val)
+    }
+    println!("Reference: {}", reference);
+    match *reference {
+        val => println!("Got a value with dereference: {}", val)
+    }
+
+    let try_value = 69;
+
+    match try_value {
+        val => println!("value without: {}", val)
+    }
+    println!("Try value: {}", try_value);
+
+    struct Foo {
+        x: (u32, u32),
+        y: u32
+    }
+
+    let foo = Foo {x: (1, 2), y: 3};
+
+    match foo {
+        // Foo {x: (1, b), y} => println!("First of x is 1, b = {}, y = {}", b, y),
+        // Foo {y: 2, x: i} => println!("y is 2, i = {:?}", i),
+        Foo {y, ..} => println!("y = {}, x = {:?}", y, foo.x)
+    }
+
+    enum Temperature {
+        Celsius(f64),
+        Fahrenheit(f64)
+    }
+
+    let temp = Temperature::Celsius(34.0);
+
+    match temp {
+        Temperature::Celsius(c) if c < 30.0 => println!("Temperature is too cold"),
+        Temperature::Celsius(c) if c > 35.0 => println!("Temperature is too hot"),
+        Temperature::Celsius(c) => println!("Temperature is normal: {}", c),
+        Temperature::Fahrenheit(f) => println!("Temperature in fahrenheit: {}", f)
+    }
+
+    fn some_number() -> Option<f32> {
+        Some(43.0)
+    }
+
+    match some_number() {
+        Some(n @ 45.0) => println!("Number is 45, n = {}", n),
+        Some(n @ 43.0) => println!("Number is 43.0, n = {}", n),
+        _ => println!("No number")
+    }
+
+    let number = Some(43);
+
+    if let Some(i) = number {
+        println!("Number: {}", i);
+    }
+
+    let lat = Some("Hello");
+    let trying: Option<&str> = None;
+
+    if let Some(i) = trying {
+        println!("Lat: {}", i);
+    } else {
+        println!("No lat {}", lat.unwrap_or("No lat"));
+    }
+
+    enum Colors {
+        Red,
+        Green,
+        Blue
+    }
+
+    let color = Colors::Green;
+
+    if let Colors::Red = color {
+        println!("Color is red");
+    } else {
+        println!("Color is not red");
+    }
+
+}   
 
 pub fn run() {
     // hello_world();
