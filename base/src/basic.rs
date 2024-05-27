@@ -909,7 +909,21 @@ fn functions() {
 }
 
 fn generics() {
-    
+  struct Answer<T> {
+    value: T
+  } 
+
+  fn analyzed_answer<T: std::cmp::PartialOrd<i32>>(answer: Answer<T>) {
+    match answer {
+        Answer {value} if value > 42 => println!("This is the answer good",),
+        _ => println!("This is a bad answer")
+    }
+  }
+
+  let answer = Answer {value: 34};
+
+  analyzed_answer(answer);
+
 }
 
 pub fn run() {
@@ -923,4 +937,5 @@ pub fn run() {
     // conversion();
     // flow_control();
     // functions();
+    generics();
 }
