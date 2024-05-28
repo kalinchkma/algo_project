@@ -924,6 +924,77 @@ fn generics() {
 
   analyzed_answer(answer);
 
+  struct GenVal<T: std::cmp::PartialOrd<i64>> {
+    gen_val: T
+  }
+
+  impl<T: std::cmp::PartialOrd<i64>> GenVal<T> {
+    fn value(self) -> T {
+        self.gen_val
+    }
+  }
+
+  let x = GenVal {gen_val: 34};
+
+  println!("Value: {}", x.value());
+
+  // traits
+
+  #[derive(Debug)]
+  struct Empty;
+  #[derive(Debug)]
+  struct Null;
+
+  trait DoubleDrop<T> {
+    fn double_drop(self, _: T);
+  }
+
+  impl<T, U> DoubleDrop<T> for U {
+    fn double_drop(self, _: T) {}
+  }
+ 
+  let e = Empty;
+  let n = Null;
+
+  println!("Before Double drop: {:?} {:?}", e, n);
+
+  e.double_drop(n);
+
+//   println!("After Double drop: {} {}", e, n); // error beause it already droped
+
+  trait Area {
+    fn area(&self) -> f64;
+  }
+
+  impl Area for Reactular {
+    fn area(&self) -> f64 {
+        self.width * self.height
+    }
+  }
+
+  #[derive(Debug)]
+  struct Reactular {
+    width: f64,
+    height: f64
+  }
+
+  impl Reactular {
+    fn new(width: f64, height: f64) -> Reactular {
+        Reactular {
+            width,
+            height
+        }
+    }
+  }
+
+  fn area<T: Area>(t: &T) -> f64 {
+    t.area()
+  }
+
+  let rect = Reactular::new(54.00, 90.00);
+
+  println!("Area of the rectangle: {}", rect.area());
+  println!("Area with a function: {}", area(&rect));
 }
 
 pub fn run() {
