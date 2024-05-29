@@ -997,6 +997,132 @@ fn generics() {
   println!("Area with a function: {}", area(&rect));
 }
 
+fn scoping_rules() {
+    // raii - Resource Acquisition Is Initialization
+    fn create_box() {
+        let _box1 = Box::new(3i32);
+    }
+}
+
+
+fn generic_types() {
+    let number_list = vec![34, 34, 90, 78, 10, 89];
+
+    let largest = get_largest(number_list);
+
+    println!("Largest number: {}", largest);
+
+    let number_list_2 = vec![12, 98, 900233, 67123, 12783, 123123, 52312, 671278873];
+
+    let largest_2 = get_largest(number_list_2);
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+
+    let largest_char = get_largest_generic(char_list);
+
+    println!("Largest number 2: {}", largest_2);
+    println!("Largest char: {}", largest_char);
+
+    fn get_largest(list: Vec<i32>) -> i32 {
+        let mut largest = list[0];
+        for n in list {
+            if n > largest {
+                largest = n;
+            }
+        }
+        largest
+    }
+
+    // reuseable function with generic type
+    fn get_largest_generic<T: PartialOrd + Copy>(list: Vec<T>) -> T {
+        let mut largest = list[0];
+        for n in list {
+            if n > largest {
+                largest = n;
+            }
+        }
+        largest
+    }
+
+    // generic type with struct
+    struct Point {
+        x: i32,
+        y: i32
+    }
+
+    let _point_1 = Point {x: 3, y: 4};
+    // let point_2 = Point {x: 2.4, y: 6.9};// error
+
+    // with generic type
+    struct PointGeneric<T> {
+        x: T,
+        y: T
+    }
+    let _p_1 = PointGeneric {x: 3, y: 4};
+    let _p_2 = PointGeneric {x: 2.4, y: 6.9};
+    // let p_3 = PointGeneric {x: "Hello", y: 7}; // error -> more than one type
+    struct PointGeneric2<T, U> {
+        x: T,
+        y: U
+    }
+    let _p_3 = PointGeneric2 {x: "Hello", y: 7}; // no error
+
+    struct Coord<T> {
+        x: T,
+        y: T
+    }
+
+    impl<T> Coord<T> {
+        fn x(&self) -> &T {
+            &self.x
+        }
+    } 
+    impl Coord<String> {
+        fn y(&self) -> &String {
+            &self.y
+        }
+    }
+
+    let coord = Coord {x: 3, y: 4};
+    let coord_2 = Coord {x: "Hello".to_string(), y: "World".to_string()};
+
+    println!("{}",coord.x()); // for coord only x method avail able
+    println!("{} {}",coord_2.x(), coord_2.y());
+
+    struct Multiple<T, U> {
+        x: T,
+        y: U
+    }
+
+    impl<T, U> Multiple<T, U> {
+        fn mixup<V, W>(self, other: Multiple<V, W>) -> Multiple<T, W> {
+            Multiple {
+                x: self.x,
+                y: other.y
+            }
+        }
+    }
+
+    let _m_1 = Multiple {x: 3, y: 5};
+    let _m_2 = Multiple {x: 4, y: "This is message"};
+    let mix = _m_1.mixup(_m_2);
+
+    println!("{} {}", mix.x, mix.y);
+
+    
+    #[derive(Debug)]
+    enum Option<T> {
+        Some(T),
+        None
+    }
+
+    let age = Option::Some(26);
+    let name = Option::Some("Hunter");
+
+    println!("Name: {:?} Age: {:?}", name, age);
+  
+}   
+
 pub fn run() {
     // hello_world();
     // println!("{}",format_greetings("Cyper"));
@@ -1008,5 +1134,6 @@ pub fn run() {
     // conversion();
     // flow_control();
     // functions();
-    generics();
+    // generics();
+    generic_types();
 }
