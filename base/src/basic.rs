@@ -1117,11 +1117,148 @@ fn generic_types() {
     }
 
     let age = Option::Some(26);
-    let name = Option::Some("Hunter");
+    let name = Option::Some("Hunter".to_string());
 
     println!("Name: {:?} Age: {:?}", name, age);
+
+    let age = Some(26);
+
+    println!("Age: {}", age.unwrap());
   
 }   
+
+
+fn traits() {
+    struct NewsArticle {
+        pub author: String,
+        pub headline: String,
+        pub content: String,
+    }
+
+    impl Summary for NewsArticle {
+        fn summarize(&self) -> String {
+            format!("{}, by {} ({})", self.headline, self.author, self.content)
+        }
+        fn summarize_author(&self) -> String {
+            format!("@{}", self.author)
+        }
+    }
+
+    struct Tweet {
+        pub username: String,
+        pub content: String,
+        pub reply: bool,
+        pub retweet: bool
+    }
+
+    impl Summary for Tweet {
+        // fn summarize(&self) -> String {
+        //     format!("{}: {}", self.username, self.content)
+        // }
+        fn summarize_author(&self) -> String {
+            format!("@{}", self.username)
+        }
+    }
+
+    trait Summary {
+
+        fn summarize_author(&self) -> String;
+        fn summarize(&self) -> String {
+            String::from("(Read more...)")
+        }
+
+        fn read_more(&self) -> String {
+            format!("Read more from {}", self.summarize_author())
+        }
+
+        
+    }
+
+    let my_tweet = Tweet {
+        username: "Omen".to_string(),
+        content: "I am the best agent in the velorent game".to_string(),
+        reply: false,
+        retweet: false
+    };
+
+    let my_news = NewsArticle {
+        author: "Sage".to_string(),
+        headline: "I am the best healer in the velorent game".to_string(),
+        content: "I will raise you up twich when you dia in a single game, I have that ability now".to_string()
+    };
+
+    println!("Tweet summary: {}", my_tweet.summarize());
+    println!("{}", my_tweet.read_more());
+    println!("News summary: {}", my_news.summarize());
+    println!("{}", my_news.read_more());
+
+    // trits as arguments
+    // fn notify(item: &impl Summary ) {
+    //     println!("Breaking news! {}", item.summarize());
+    // }
+    
+    // longer form of above function
+    fn notify<T: Summary>(item: &T) {
+        println!("Breaking news! {}", item.summarize());
+    }
+    
+    notify(&my_news);
+
+    fn return_summarizable() -> impl Summary {
+        Tweet {
+            username: "Sova".to_string(),
+            content: "I am the hunter".to_string(),
+            reply: false,
+            retweet: false
+        }
+    }
+
+    println!("{}",return_summarizable().summarize());
+}
+
+fn lifetimes() {
+    let person1 = String::from("The hunter");
+    let person2 = String::from("Mr AFK");
+
+    let result = longest(person1.as_str(), person2.as_str());
+
+    println!("Result {}, again {}", result, person1);
+
+    fn longest<'b>(x: &'b str, y: &'b str) ->&'b str {
+        if x.len() > y.len() {
+            x
+        } else {
+            y
+        }
+    }
+
+    let result_2 = longest_2(person1, person2);
+    println!("{}", result_2);
+    fn longest_2(x: String, y: String) ->String {
+        if x.len() > y.len() {
+            x
+        } else {
+            y
+        }
+    }
+
+    // -----------------
+    fn longest_with_an_announcement<'a, T>(
+        x: &'a str,
+        y: &'b str,
+        ann: T
+    ) -> &'a str
+    where T: Display
+    {
+        println!("Announcement! {}", ann);
+        if x.len() > y.len() {
+            x
+        } else {
+            y
+        }
+    }
+
+}
 
 pub fn run() {
     // hello_world();
@@ -1135,5 +1272,7 @@ pub fn run() {
     // flow_control();
     // functions();
     // generics();
-    generic_types();
+    // generic_types();
+    // traits();
+    lifetimes();
 }
