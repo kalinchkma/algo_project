@@ -167,12 +167,104 @@ fn reference_counting() {
 }
 
 fn interior_mutability() {
-    
+
 }
+
+fn threading() {
+    use std::thread;
+    use std::time::Duration;
+
+    let v = vec![1, 2, 3, 4, 5, 6,123, 54];
+
+    // spawning thread
+    let thread1 = thread::spawn(move || {
+        for i in 1..4 {
+            println!("Hi i am from spawing thread {} ", i);
+            println!("Vect: {:?}", v);
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+
+    for i in 1..=5 {
+        println!("I am from main thread {}", i);
+        thread::sleep(Duration::from_millis(1));
+    }
+
+    thread1.join().unwrap();
+
+    // message passing
+    use std::sync::mpsc;
+    
+    println!("Thread messaging..................");
+    // creating channal
+    let (tx, rx) = mpsc::channel();
+    let tx2 = tx.clone();
+
+    thread::spawn(move || {
+        let mut n = 10;
+        for i in 1..10 {
+            println!("Calculation number 2{}..........................", i);
+            thread::sleep(Duration::from_millis(2));
+            tx.send(n*i).unwrap();
+        }
+    });
+
+    thread::spawn(move || {
+        let msg = vec![89, 321, 32, 23, 66];
+        for m in msg.iter() {
+            println!("Generating message on thread 2");
+            thread::sleep(Duration::from_millis(1));
+            tx2.send(*m).unwrap();
+        }
+    });
+
+    // for reading single message
+    // let thread_message = rx.recv().unwrap();
+    // println!("Message from thread is {}", thread_message);
+    for msg in rx {
+        println!("Message from thread {}", msg);
+    }
+
+    // share state between thread
+    println!("-----------------Share state in thread--------------------------");
+    use std::sync::Mutex;
+    use std::rc::Rc;
+    use std::sync::Arc;
+
+    let num = Mutex::new(10);
+
+    {
+        let mut m = num.lock().unwrap();
+        *m = 43;
+    }
+
+    println!("After mutationg mutex {:?}", num);
+
+    let counter = Arc::new(Mutex::new(0));
+    let mut handlers = vec![];
+
+    for _ in 0..10 {
+        let counter = Arc::clone(&counter);
+        let handler = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
+            *num += 1;
+        });
+
+        handlers.push(handler);
+    }
+
+    for handler in handlers {
+        handler.join().unwrap();
+    }
+
+    println!("Result: {}", *counter.lock().unwrap());
+}
+
 
 pub fn run() {
     // box_pointer();
     // deref_traits();
     // drop_traits()
     // reference_counting();
+    threading();
 }

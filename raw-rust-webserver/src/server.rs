@@ -18,13 +18,16 @@ pub fn run() {
     // creating threadpool
     let pool = ThreadPool::new(4);
 
-    for stream in listener.incoming() {
+    // process the request
+    for stream in listener.incoming().take(2) {
         let stream = stream.unwrap();
 
         pool.execute(|| {
             handle_connection(stream);
         });
     }
+
+    println!("Shutting down.");
 }
 
 fn handle_connection(mut stream: TcpStream) {
@@ -33,16 +36,18 @@ fn handle_connection(mut stream: TcpStream) {
 
     stream.read(&mut buffer).unwrap();
 
+    // printing the request
     println!(
       "Request: {}",
       String::from_utf8_lossy(&buffer[..])
     );
 
+    // simple routing path
     let get = b"GET / HTTP/1.1\r\n";
     let sleep = b"GET /sleep HTTP/1.1\r\n";
 
 
-
+    // simple routing handler
     let (status_line, filename) = if buffer.starts_with(get) {
        ("HTTP/1.1 200 OK", "index.html")
     } else if buffer.starts_with(sleep) {
@@ -52,9 +57,10 @@ fn handle_connection(mut stream: TcpStream) {
       ("HTTP/1.1 404 NOT FOUND", "404.html")
     };
 
-  
+    // reading file to send0
     let contents = fs::read_to_string(filename).unwrap();
 
+    // constructing message
     let response = format!(
         "{}\r\nContent-Length: {}\r\n\r\n{}",
         status_line,
@@ -62,7 +68,7 @@ fn handle_connection(mut stream: TcpStream) {
         contents
     );
 
-
+    // 
     stream.write(response.as_bytes()).unwrap();
     stream.flush().unwrap();
  
