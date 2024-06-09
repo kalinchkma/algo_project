@@ -67,7 +67,7 @@ fn handle_connection(mut stream: TcpStream) {
         contents.len(),
         contents
     );
-
+    println!("Response:\n {}", response);
     // 
     stream.write(response.as_bytes()).unwrap();
     stream.flush().unwrap();
