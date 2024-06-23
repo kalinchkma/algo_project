@@ -3,12 +3,14 @@
 // mod max_pairwise_product;
 // mod fib;
 // mod gcd;
-mod greedy;
+// mod greedy;
 // use crate::greedy::find_max;
-use crate::greedy::car_fueling::run;
+// use crate::greedy::car_fueling::run;
+mod dsa;
 
 fn main() {
     // gcd::run();
     // find_max::run();
-    run();
+    // run();
+    dsa::Stack::run();
 }
