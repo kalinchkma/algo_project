@@ -12,5 +12,6 @@ fn main() {
     // gcd::run();
     // find_max::run();
     // run();
-    dsa::Stack::run();
+    // dsa::Stack::run();
+    dsa::bubble_short::run();
 }

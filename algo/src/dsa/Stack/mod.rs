@@ -54,5 +54,4 @@ pub fn run() {
 
     println!("After pop {:?} size {}", plate, plate.size());
 
-
 }
