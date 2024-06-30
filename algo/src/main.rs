@@ -14,5 +14,6 @@ fn main() {
     // run();
     // dsa::Stack::run();
     // dsa::bubble_short::run();
-    dsa::Queue::run();
+    // dsa::Queue::run();
+    dsa::tree::run();
 }

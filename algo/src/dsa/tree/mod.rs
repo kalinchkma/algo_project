@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::{fmt::Display, rc::Rc};
 
 #[derive(Debug)]
 struct Node<T> {
@@ -22,7 +22,7 @@ struct BinaryTree<T> {
     root: Option<Box<Node<T>>>
 }
 
-impl<T: Ord> BinaryTree<T> {
+impl<T: Ord + Display> BinaryTree<T> {
     fn new() -> Self {
         BinaryTree {
             root: None
@@ -50,4 +50,29 @@ impl<T: Ord> BinaryTree<T> {
             }
         }
     }
+
+    fn in_order_traversal(&self) {
+        Self::in_order(&self.root);
+        println!()
+    }
+
+    fn in_order(node: &Option<Box<Node<T>>>) {
+        if let Some(ref n) = node {
+            Self::in_order(&n.left);
+            print!("{} ", n.value);
+            Self::in_order(&n.right);
+        }
+    }
+}
+
+
+pub fn run() {
+    let mut tree = BinaryTree::new();
+
+    tree.insert(10);
+    tree.insert(5);
+    tree.insert(50);
+    
+    println!("In-order traversal");
+    tree.in_order_traversal()
 }
