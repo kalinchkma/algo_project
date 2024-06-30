@@ -74,6 +74,7 @@ pub fn run() {
     tree.insert(10);
     tree.insert(5);
     tree.insert(50);
+    tree.insert(1);
     
     println!("In-order traversal");
     tree.in_order_traversal()
