@@ -1,4 +1,4 @@
-use std::{fmt::Display, rc::Rc};
+use std::fmt::Display;
 
 #[derive(Debug)]
 struct Node<T> {
@@ -23,6 +23,7 @@ struct BinaryTree<T> {
 }
 
 impl<T: Ord + Display> BinaryTree<T> {
+
     fn new() -> Self {
         BinaryTree {
             root: None
@@ -69,6 +70,7 @@ impl<T: Ord + Display> BinaryTree<T> {
 pub fn run() {
     let mut tree = BinaryTree::new();
 
+    tree.insert(70);
     tree.insert(10);
     tree.insert(5);
     tree.insert(50);
