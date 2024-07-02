@@ -52,6 +52,10 @@ impl<T: Ord + Display> BinaryTree<T> {
         }
     }
 
+    /**
+     * In order traversal of binary trees
+     * -> in orders traversal is type of depth first search, where each node is visited in centain order
+     */
     fn in_order_traversal(&self) {
         Self::in_order(&self.root);
         println!()
@@ -64,6 +68,8 @@ impl<T: Ord + Display> BinaryTree<T> {
             Self::in_order(&n.right);
         }
     }
+
+
 }
 
 
