@@ -95,15 +95,15 @@ pub fn run() {
 //         Node { 
 //             value: 70, 
 //             left: Some(
-//                 Node {
-//                      value: 10, 
-//                      left: Some(
-//                             Node { 
-//                                 value: 5, 
-//                                 left: Some(
-//                                     Node { value: 1, left: None, right: None }),
-//                                      right: None }), right: Some(Node { value: 50, left: None, right: None 
-//                             }
+//                     Node {
+//                         value: 10, 
+//                         left: Some(
+//                                 Node { 
+//                                     value: 5, 
+//                                     left: Some(
+//                                             Node { value: 1, left: None, right: None }),
+//                                         right: None }), right: Some(Node { value: 50, left: None, right: None 
+//                                 }
 //                         ) 
 //                     }
 //             ), 
