@@ -4,6 +4,8 @@ using namespace std;
 
 #define print_vector(v) for(auto i: v) cout << i << "\n";
 
+
+
 int main() {
     // shorer way to iterate vector
     vector<string> names = {"Hunter", "Mommy", "Nobaria", "Sasuke"};
