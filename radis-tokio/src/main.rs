@@ -7,7 +7,7 @@ use reqwest::Error;
 
 async fn send_request(client: &reqwest::Client, url: &str) -> Result<(), Error> {
 
-     let _res = match client.get(url).send().await {
+     match client.get(url).send().await {
         Ok(c) => {
             print!("{:?}\n", c.status() );
         },
@@ -45,7 +45,7 @@ async fn send_concurrent_request(url: &str, num_of_req: usize) -> Result<(), Err
 
 #[tokio::main]
 async fn main() {
-    let url = "http://127.0.0.1:3000";
+    let url = "http://103.213.38.9:31337/register";
     let num_request = 1000000;
     let start = time::Instant::now();
     match send_concurrent_request(&url, num_request).await {
