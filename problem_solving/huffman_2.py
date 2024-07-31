@@ -23,17 +23,15 @@ def build_huffman_tree(frequencies):
     heap = [Node(char, freq) for char, freq in frequencies.items()]
     heapq.heapify(heap)
 
-    print("Huffman...................")
-    for h in heap:
-        print("heap node:", h.char, h.freq)
-
     while len(heap) > 1:
         left = heapq.heappop(heap)
         right = heapq.heappop(heap)
+
         merged = Node(None, left.freq + right.freq)
         merged.left = left
         merged.right = right
         heapq.heappush(heap, merged)
+
     return heap[0]
 
 
@@ -79,6 +77,8 @@ def main():
     for char in data:
         frequencies[char] += 1
 
+    print("frequencies:", frequencies)
+
     huffman_tree = build_huffman_tree(frequencies)
     codebook = build_codes(huffman_tree)
 
@@ -86,6 +86,8 @@ def main():
     decoded_data = decode(encoded_data, huffman_tree)
 
     print("Original data:", data)
+    print("Huffman tree", huffman_tree)
+    print("code book", codebook)
     print("Encoded data:", encoded_data)
     print("Decoded data:", decoded_data)
 
