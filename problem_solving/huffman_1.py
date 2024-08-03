@@ -28,6 +28,9 @@ def build_huffman_tree(frequency):
     print("Frequency", frequency)
     heap = [HuffmanNode(char, freq) for char, freq in frequency.items()]
 
+    for h in heap:
+        print(h)
+
     heapq.heapify(heap)
     for h in heap:
         print(h)

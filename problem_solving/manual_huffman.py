@@ -1,3 +1,6 @@
+import heapq
+
+
 class HuffmanNode:
 
     char = None
@@ -8,6 +11,10 @@ class HuffmanNode:
         self.freq = freq
         self.left = None
         self.right = None
+
+    # comparision operator
+    def __lt__(self, other):
+        return self.freq < other.freq
 
     def __str__(self) -> str:
         return f"{self.char} {self.freq}"
@@ -24,10 +31,15 @@ def create_huffman_tree(chars):
             freq[c] = 1
 
     # Create tree
+    heap = [HuffmanNode(c, f) for c, f in freq.items()]
+
+    heapq.heapify(heap)
+
     huffman_tree = HuffmanNode(None, None)
 
-    for c, f in freq.items():
-        print(c, f)
+    print(len(heap))
+    heapq.heappop(heap)
+    print(len(heap))
 
 
 if __name__ == "__main__":
