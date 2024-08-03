@@ -13,11 +13,23 @@ class HuffmanNode:
         return f"{self.char} {self.freq}"
 
 
-def create_huffman_tree():
-    n = HuffmanNode("A", 2)
-    print(n)
+def create_huffman_tree(chars):
+    freq = {}
+
+    # freqs
+    for c in chars:
+        if c in freq:
+            freq[c] += 1
+        else:
+            freq[c] = 1
+
+    # Create tree
+    huffman_tree = HuffmanNode(None, None)
+
+    for c, f in freq.items():
+        print(c, f)
 
 
 if __name__ == "__main__":
     s = "AABACDACA"
-    huffman_tree = create_huffman_tree()
+    huffman_tree = create_huffman_tree(s)
