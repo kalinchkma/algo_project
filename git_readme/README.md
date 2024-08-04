@@ -93,3 +93,12 @@ Locations
 - Local: `.git/config`, a file that configures Git for a specific project
 - worktree: `.git/config.worktree`, a file that configures Git for part of a
   project
+
+Branching
+
+- Git branches allows you to keep track of different changes separately
+- `git branch -m branch_name` make a default branch
+- `git branch` checkout all the branches
+- `git checkout branch_name` switch the git branches
+- `git branch branch_name` create a new branch
+- `git branch -d branch_name` delete a branch
