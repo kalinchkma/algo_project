@@ -37,10 +37,6 @@ def create_huffman_tree(chars):
 
     huffman_tree = HuffmanNode(None, None)
 
-    print(len(heap))
-    heapq.heappop(heap)
-    print(len(heap))
-
 
 if __name__ == "__main__":
     s = "AABACDACA"

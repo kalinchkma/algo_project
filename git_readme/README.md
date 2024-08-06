@@ -99,6 +99,5 @@ Branching
 - Git branches allows you to keep track of different changes separately
 - `git branch -m branch_name` make a default branch
 - `git branch` checkout all the branches
-- `git checkout branch_name` switch the git branches
-- `git branch branch_name` create a new branch
-- `git branch -d branch_name` delete a branch
+- `git checkout branch_name` or `git switch branch_name` switch the git branches
+- `git branch branch_name` or `git switch -c branch_name` create a new branch
