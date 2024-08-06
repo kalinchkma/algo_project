@@ -3,19 +3,20 @@ def isValid(s):
     :type s: str
     :rtype: bool
     """
-    parentheses = {"(": 1, ")": -1, "{": 2, "}": -2, "[": 3, "]": -3}
-    pCount = []
+    stack = []
+    parentheses = {")": "(", "}": "{", "]": "["}
+    opening = ["(", "{", "["]
 
-    for c in s:
-        if c in parentheses:
-            pCount.append(parentheses[c])
-
-    if len(pCount) % 2 != 0:
-        return False
-
-    for p in range(len(pCount)-1):
-
+    for char in s:
+        if char in parentheses:
+            top = stack.pop() if stack else "#"
+            if parentheses[char] != top:
+                return False
+        elif char in opening:
+            # push the current opening bracket onto the stack
+            stack.append(char)
+    return not stack
 
 
 if __name__ == "__main__":
-    print(isValid("(wew)[we]{weqw}"))
+    print(isValid("(wew)[we]{weqw}[]"))
