@@ -1,3 +1,8 @@
+"""
+Merge two array
+"""
+
+
 def mergeTwoList(list1, list2):
     merged = []
     i, j = 0, 0

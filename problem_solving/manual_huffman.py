@@ -1,3 +1,7 @@
+"""
+Huffman encoding
+"""
+
 import heapq
 
 
